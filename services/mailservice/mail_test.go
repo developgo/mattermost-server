@@ -12,17 +12,15 @@ import (
 	"net/mail"
 	"net/smtp"
 
-	"github.com/mattermost/mattermost-server/config"
 	"github.com/mattermost/mattermost-server/model"
 	"github.com/mattermost/mattermost-server/services/filesstore"
 	"github.com/mattermost/mattermost-server/utils"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 )
 
 func TestMailConnectionFromConfig(t *testing.T) {
-	cfg, _, _, err := config.LoadConfig("config.json")
-	require.Nil(t, err)
+	cfg := &model.Config{}
+	cfg.SetDefaults()
 
 	if conn, err := ConnectToSMTPServer(cfg); err != nil {
 		t.Log(err)
@@ -44,8 +42,8 @@ func TestMailConnectionFromConfig(t *testing.T) {
 }
 
 func TestMailConnectionAdvanced(t *testing.T) {
-	cfg, _, _, err := config.LoadConfig("config.json")
-	require.Nil(t, err)
+	cfg := &model.Config{}
+	cfg.SetDefaults()
 
 	if conn, err := ConnectToSMTPServerAdvanced(
 		&SmtpConnectionInfo{
@@ -94,8 +92,9 @@ func TestMailConnectionAdvanced(t *testing.T) {
 }
 
 func TestSendMailUsingConfig(t *testing.T) {
-	cfg, _, _, err := config.LoadConfig("config.json")
-	require.Nil(t, err)
+	cfg := &model.Config{}
+	cfg.SetDefaults()
+
 	utils.T = utils.GetUserTranslations("en")
 
 	var emailTo = "test@example.com"
@@ -136,8 +135,9 @@ func TestSendMailUsingConfig(t *testing.T) {
 }
 
 func TestSendMailUsingConfigAdvanced(t *testing.T) {
-	cfg, _, _, err := config.LoadConfig("config.json")
-	require.Nil(t, err)
+	cfg := &model.Config{}
+	cfg.SetDefaults()
+
 	utils.T = utils.GetUserTranslations("en")
 
 	var mimeTo = "test@example.com"
